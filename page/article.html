@@ -1,0 +1,34 @@
+{{template "base" .}}
+
+{{define "title"}}{{.Title}}{{end}}
+{{define "description"}}{{.Description}}{{end}}
+{{define "image"}}{{.Image}}{{end}}
+{{define "type"}}article{{end}}
+
+{{define "content"}}
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <nav aria-label="breadcrumb">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/article/">Articles</a></li>
+                    <li>{{.Title}}</li>
+                </ul>
+            </nav>
+            <div>
+                <small class="date">{{.Published.Format "2 Jan, 2006"}} · <a href="{{.AuthorLink}}">{{.Author}}</a></small>
+            </div>
+            <hgroup>
+                <h1>{{.Title}}</h1>
+                <h2>{{.Description}}</h2>
+            </hgroup>
+            <div class="article">
+                {{.Content}}
+            </div>
+        </div>
+        <div></div>
+    </div>
+</section>
+{{end}}

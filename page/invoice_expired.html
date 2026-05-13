@@ -1,0 +1,21 @@
+{{template "base" .}}
+
+{{define "title"}}SeedHammer Checkout{{end}}
+{{define "description"}}{{end}}
+
+{{define "content"}}
+
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <hgroup class="text-center">
+                <h1>Payment for Order #{{.OrderID}}</h1>
+                    <p><small>Pay on-chain or through Lightning, amounts in satoshi.</small></p>
+            </hgroup>
+            <p class="alert alert-warning">Invoice expired.</p>
+        </div>
+        <div></div>
+    </div>
+</section>
+{{end}}

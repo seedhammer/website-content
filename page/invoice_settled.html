@@ -1,0 +1,108 @@
+{{template "base" .}}
+
+{{define "title"}}SeedHammer Checkout{{end}}
+{{define "description"}}{{end}}
+
+{{define "content"}}
+
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <hgroup class="text-center">
+                <h1>Payment for Order #{{.OrderID}}</h1>
+                    <p><small>Pay on-chain or through Lightning, amounts in satoshi.</small></p>
+            </hgroup>
+            <p class="alert alert-success">Payment received!</p>
+            <h2>Thank you</h2>
+            <p>Thank you for your order which has <strong>order no. {{.OrderID}}</strong>. The order confirmation will be sent to <strong>{{with .Order.Address}}{{.Email}}{{end}}</strong> shortly.</p>
+            {{if .Preorder}}
+            <p>We will email you for delivery information and shipping charges when your order is ready to ship.</p>
+            {{else}}
+            <p>You will receive an email with tracking information upon dispatch.</p>
+            <p>In the case of any questions or comments to your order please contact us at <a href="mailto:support@seedhammer.com">support@seedhammer.com</a> with reference to your order number - we will answer as fast as possible.</p>
+            {{end}}
+            <h3>Copy of your order</h3>
+            <p>Here is a copy of your order. Everything under "Delivery Address" will be deleted 4 month after dispatch or upon request, except country. Read more about our attitude to privacy <a href="/about#privacy" target="_blank">here</a>.</p>
+            <h4>Delivery Address</h4>
+            <div class="grid">
+                {{with .Order.Address}}
+                {{if not $.Preorder}}
+                <p>
+                    {{if .Company}}{{.Company}}<br>{{end}}
+                    {{if .VAT}}VAT/Tax ID: {{.VAT}}<br>{{end}}
+                    {{.Name}}<br>
+                    {{.Address}}<br>
+                    {{if .Address2}}{{.Address2}}<br>{{end}}
+                    {{.City}}{{if .Zip}} {{.Zip}}{{end}}<br>
+                    {{.CountryName}}
+                </p>
+                {{end}}
+                {{if .Phone}}<p>Phone: {{.Phone}}<br>{{end}}
+                Email: {{.Email}}
+                </p>
+                {{end}}
+            </div>
+            <h4>Order No. {{.OrderID}}</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="min hide-mobile">Prod.&nbsp;ID</th>
+                        <th>Product</th>
+                        <th class="text-center min">Quantity</th>
+                        <th class="text-start min">Unit</th>
+                        <th class="text-end min">Price</th>
+                        <th class="text-end min">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Order.Lines}}
+                    <tr>
+                        <td class="min hide-mobile">{{.ID}}</td>
+                        <td>{{.Product.Name}}</td>
+                        <td class="text-center min">{{.Quantity}}</td>
+                        <td class="text-start min">{{.Product.Unit}}</td>
+                        <td class="text-end min">{{.Price}}</td>
+                        <td class="text-end min">{{.Total}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="hide-mobile"></td>
+                        <td colspan="4" class="text-end">Sub Total</td>
+                        <td colspan="1" class="text-end min">{{.Order.SubTotal}}</td>
+                    </tr>
+                    {{if .Order.Shipping.ID}}
+                    <tr>
+                        <td class="hide-mobile"></td>
+                        <td colspan="4" class="text-end">Shipping <small>({{.Order.Shipping.Name}})</small></td>
+                        <td colspan="1" class="text-end min">{{.Order.Shipping.Price}}</td>
+                    </tr>
+                    {{end}}
+                    {{if .Order.Tax}}
+                    <tr>
+                        <td class="hide-mobile"></td>
+                        <td colspan="4" class="text-end">Tax</td>
+                        <td colspan="1" class="text-end min">{{.Order.Tax}}</td>
+                    </tr>
+                    {{end}}
+                    <tr>
+                        <td class="hide-mobile"></td>
+                        <td colspan="4" class="text-end">Total</td>
+                        <td colspan="1" class="text-end min">{{.Order.Total}}</td>
+                    </tr>
+                    <tr>
+                        <td class="hide-mobile"></td>
+                        <td colspan="4" class="text-end">Total (1BTC = {{.Order.ExchangeRate}})</td>
+                        <td colspan="1" class="text-end min">{{.Order.TotalSats}}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p class="text-center">Thank you,</p>
+            <p class="text-center"><i>The SeedHammer Team</i></p>
+        </div>
+        <div></div>
+    </div>
+</section>
+{{end}}

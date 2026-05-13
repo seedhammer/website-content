@@ -1,0 +1,94 @@
+{{template "base" .}}
+
+{{define "title"}}SeedHammer FAQ{{end}}
+{{define "description"}}Most Frequenlty Asked Questions about SeedHammer{{end}}
+
+{{define "content"}}
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <h1 class="text-center">FAQ</h1>
+
+            <details>
+                <summary>Can I backup solely the descriptor part of a setup?</summary>
+                <p>Yes, it's possible to back up the descriptor part of a setup, resulting in a complete set of plates. However, they will be blank on the side intended for the seed phrase.</p>
+                <p>When prompted to turn the plate in the hammer process, halt the process, refrain from continuing the hammering, and proceed to load a new seed.</p>
+            </details>
+
+            <details>
+                <summary>Can I backup solely the seed phrase of a setup?</summary>
+                <p>Yes, you can back up exclusively the seed, omitting the descriptor part of the setup. This approach gives a complete set of plates, without a descriptor. Consequently, they will remain blank on the side designated for the descriptor.</p>
+                <p>Upon being prompted to hammer the first side of a plate, engage the dry-run mode (further details can be found <a href="https://github.com/seedhammer#dry-run-engraving">here</a>). Remember to deactivate the dry-run mode before proceeding to hammer the second side (the seed side).</p>
+            </details>
+            
+            <details>
+                <summary>Can I backup a passphrase-protected wallet?</summary>
+                <p>Yes, from version <a href="https://github.com/seedhammer/seedhammer/releases/tag/v1.1.1">v1.1.1</a> and forward.</p>
+                <p>Note that backing up a passphrase-protected multisig wallet is not possible, as matching the seed with the descriptor part becomes impossible.</p>
+                <p>A workaround for passphrase-protected multisig wallets is to back up each share as a single signature wallet and, optionally, skip the descriptor side. However, this approach will result in the loss of the unique feature of a self-contained setup.</p>
+            </details>
+            
+            <details>
+                <summary>What do you mean by "self-contained" setup?</summary>
+                <p>This means that the minimum amount of shares (physical plates) is enough to recover the wallet, and the need for storing a copy of the XPUBs (often in the form of a descriptor) digital or on paper along each backup/plate is eliminated.</p>
+                <p>Read more about the technical solution we used to achieve this in our article <a href="/article/the-seedhammer-descriptor-partitioning-scheme">The SeedHammer Descriptor Partitioning Scheme</a>.</p>
+            </details>
+
+            <details>
+                <summary>What are the weaknesses of SeedHammer?</summary>
+                <p>See our article on <a href="/article/attack-vectors">attack vectors</a>.</p>
+            </details>
+
+            <details>
+                <summary>Can I buy the SeedHammer machine elsewhere?</summary>
+                <p>The SeedHammer machine is a off-the-shelf industrial electric marking machine for making nameplates etc.</p>
+                <p>It can be bought in various online hardware stores - however physical alterations are needed to function as a SeedHammer.</p>
+            </details>
+
+            <details>
+                <summary>Which wallet types can I backup with SeedHammer?</summary>
+                <p>It is possible to backup both single and multisig setups. However there are some guidelines for which type of plates to use for each setup.</p>
+                <p>Read about our steel plates and supported formats in our article <a href="/article/the-seedhammer-metal-plates">The Seedhammer Metal Plates</a>.</p>
+            </details>
+
+            <details>
+                <summary>What is the difference between the plates (SH01, SH02 and SH03)?</summary>
+                <p>SH01 is credit card sized, SH02 is square, and SH03 is rectangular. All are made of 3 mm <a href="/article/steel-316">stainless steel 316</a>.</p>
+                <p>The sizes of the plates determine which type of wallet setup that can be engraved on them.</p>
+                <p>Read more about this in our article <a href="/article/the-seedhammer-metal-plates">The Seedhammer Metal Plates</a>.</p>
+            </details>
+
+            <details>
+                <summary>Do you ship to anywhere in the world?</summary>
+                <p>Yes, we ship worldwide with very few exceptions.</p>
+                <p>Are you in doubt contact us at <a href="mailto:support@seedhammer.com">support@seedhammer.com</a>.</p>
+            </details>
+
+            <details>
+                <summary>Can I write a title on the plates?</summary>
+                <p>Yes, from version <a href="https://github.com/seedhammer/seedhammer/releases/tag/v1.2.0">v1.2.0</a> and forward.</p>
+                <p>When scanning descriptors from compatible wallet software, the wallet title will be shown on the descriptor information screen and engraved on the plate (max. 18 characters, limited character set).</p>
+                <p>The compatible wallets are: BlueWallet (vaults only), Nunchuk wallets and wallets capable of exporting descriptors in one of those formats.</p>
+                <p>When using Sparrow Wallet exporting descriptors in the following formats also work: Jade Multisig, Keystone Multisig, Passport Multisig, and Specter Desktop.</p>
+            </details>
+
+            <details>
+                <summary>What is the difference between SeedHammer and the many other steel backup solutions?</summary>
+                <p>The main difference is that SeedHammer can make self-contained multisig backups.</p>
+                <p>This means that the minimum amount of shares (physical plates) is enough to recover the wallet, and the need for storing a copy of the XPUBs (often in the form of a descriptor) digital or on paper along each backup/plate is eliminated.</p>
+                <p>There are also other benefits, such as QR codes for convenient recovery and signing, the ability to create distributed setups, gift cards, etc.</p>
+                <p>Moreover, precision engraving ensures that all information, such as the seed phrase and other text, is easily readable and discernible.</p>
+                <p>If you only ever need to back up a single 12- or 24-word bitcoin seed phrase many of the other steel backup solutions are most likely more suitable.</p>
+            </details>
+
+            <details>
+                <summary>Will the SeedHammer controller generate a seed?</summary>
+                <p>No, the SeedHammer software will never be able to generate a seed phrase because of the obvious vulnerabilities this approach would introduce. Read more <a href="/article/attack-vectors#generate-seed">here</a>.</p>
+            </details>
+
+        </div>
+        <div></div>
+    </div>
+</section>
+{{end}}

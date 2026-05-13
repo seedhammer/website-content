@@ -1,0 +1,198 @@
+[data-theme=light],
+:root:not([data-theme=dark]) {
+	--muted-border-color: rgba(2,66,125,0.1);
+}
+.uppercase {
+    text-transform: uppercase;
+}
+.important {
+    color:red;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.nav-item {
+	list-style: none;
+	margin-bottom: 0;
+}
+.btn-sm {
+	padding: 0 0.25rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+.btn-danger {
+    border-color: #dc3545;
+    background-color: #dc3545;
+}
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+.nav-item {
+    list-style: none;
+    margin-bottom: 0;
+}
+.nav-item input[type="radio"] {
+    display: none;
+}
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+.nav-tabs .nav-link {
+    margin-bottom: -1px;
+    background: none;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+#prev-order, #next-order {
+    position: absolute;
+    right: 30px;
+}
+
+#prev-order {
+    left: 30px;
+    right: inherit;
+}
+
+table [data-tooltip]:not(a,button,input) {
+    border-bottom: var(--border-width) solid var(--table-border-color);
+}
+table form {
+    margin-bottom: 0;
+}
+[data-tooltip]::before {
+    max-width: 550px;
+    white-space: pre;
+}
+.address td {
+	text-transform: uppercase;
+	color: grey;
+	font-size: 0.8rem;
+}
+.chkbox {
+	width: 20px;
+	height: 20px;
+	Border: 1px solid black;
+	display: inline-block;
+}
+#print-button {
+    width: 100%;
+}
+#instructions {
+    border: 1px solid var(--color);
+    padding: 1rem 2rem 0rem;
+}
+.albino-table, .address {
+    margin-bottom: 0;
+}
+.albino-table td {
+    border-bottom: none;
+    vertical-align: top;
+}
+td img {
+    width: 20%;
+}
+.badge {
+    display: inline-block;
+    padding: 0.65em 0.35rem;
+    font-size: 0.75em;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 1rem;
+    font-weight: bold;
+}
+.text-bg-new {
+    background-color: #6c757d;
+}
+.text-bg-invoiced {
+    background-color: #ffc107;
+}
+.text-bg-settled {
+    background-color: #0d6efd;
+}
+.text-bg-done {
+    background-color: #198754;
+}
+.text-bg-cancelled {
+    background-color: #DC3545;
+}
+section {
+    padding-top: 15px;
+}
+input[name="change"] {
+    width: 4rem;
+    padding: 0.25rem;
+    height: 2rem;
+    text-align: center;
+}
+.input-sm {
+    padding: 0 !important;
+    margin: 0 !important;
+    vertical-align: middle;
+    height: 2em !important;
+    line-height: 1em;
+}
+.address-fields input,
+section.order input[name="shipping"] {
+    border: 1px solid transparent;
+}
+.address-fields input:hover,
+section.order input[name="shipping"]:hover {
+    border: var(--border-width) solid var(--border-color);
+}
+.address-fields .grid p:first-child {
+    font-weight: bold;
+}
+section.order input[name="trackingid"] {
+    text-overflow: ellipsis;
+}
+[data-theme=light] section:nth-child(2n) {
+	background-color: transparent;
+}
+#invoiceForm {
+    display: none;
+    margin-bottom: 0;
+    min-width: 50%;
+}
+#invoiceForm.show {
+    display: grid;
+}
+.hide-on-screen {
+    display: none;
+}
+@media print {
+    .hide-on-print {
+        display: none;
+    }
+    .hide-on-screen {
+        display: block;
+    }
+    [data-theme=light],
+    :root:not([data-theme=dark]) {
+        --color: black;
+        --h1-color: black;
+        --h2-color: black;
+        --h3-color: black;
+    }
+    section {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+ }

@@ -1,0 +1,31 @@
+{{template "base" .}}
+
+{{define "title"}}Articles from SeedHammer{{end}}
+{{define "description"}}Latest news, updates and insights from SeedHammer Cold Storage.{{end}}
+{{define "type"}}website{{end}}
+{{define "image"}}seedhammer-front-and-controller.webp{{end}}
+{{define "head-extra"}}
+    <link rel="alternate" type="application/rss+xml" href="/article/rss" title="RSS Feed">
+{{end}}
+
+{{define "content"}}
+    <section class="container">
+        <h1 class="text-center">Articles</h1>
+        <div class="grid articles">
+            {{range .}}
+                <div>
+                    <a href="/article/{{.Slug}}">
+                        <img src="/static/img/{{.Image}}">
+                        <p>
+                            <small>
+                                <span class="date">{{.Published.Format "02 Jan 2006"}} · By {{.Author}}</span><br>
+                                <strong>{{.Title}}</strong><br>
+                                {{.Description}}
+                            </small>
+                        </p>
+                    </a>
+                </div>
+            {{end}}
+        </div>
+    </section>
+{{end}}

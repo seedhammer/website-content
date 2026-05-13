@@ -1,0 +1,32 @@
+{{template "base" .}}
+
+{{define "title"}}{{.Doc.Title}}{{end}}
+{{define "description"}}{{.Doc.Description}}{{end}}
+
+{{define "content"}}
+    <section class="container">
+        <div class="grid docs-layout">
+            <aside>
+                <nav>
+                    <ul>
+                        {{range .TOC}}
+                            <li>
+                                <a href="/about/{{.Slug}}">{{.Name}}</a>
+                            </li>
+                        {{end}}
+                    </ul>
+            </aside>
+            <div></div>
+            {{with .Doc}}
+                <div class="guide">
+                    <hgroup class="text-center">
+                        <h1>{{.Title}}</h1>
+                        <h2>{{.Description}}</h2>
+                    </hgroup>
+                    {{.Content}}
+                </div>
+            {{end}}
+            <div></div>
+        </div>
+    </section>
+{{end}}

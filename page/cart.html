@@ -1,0 +1,102 @@
+{{template "base" .}}
+
+{{define "title"}}Order the SeedHammer machine and accessories{{end}}
+{{define "description"}}Place your order here. The Ultimate Cold Storage for Single- and Multisig Bitcoin Setups.{{end}}
+{{define "line"}}
+    <input type="hidden" name="id" value="{{.ID}}">
+    <div class="product-main">
+        <h2>{{.Product.Name}}</h2>
+    </div>
+    <div class="product-pic">
+        <img class="product-image" src="{{.Product.Image}}" alt="{{.Product.Name}}"></div>
+    <div class="product-description">
+        <ul>
+        {{range .Product.Content}}
+            <li>{{.}}</li>
+        {{end}}
+        </ul>
+    </div>
+    <div class="product-amount">
+        <input type="number" name="quantity" value="{{.Quantity}}" class="mb-0 cart-amount" multiple="1" min=0 oninput="validity.valid||(value='');"> <span>{{.Product.Unit}}</span>
+    </div>
+    <div class="product-price">
+        {{if ne .Price .Product.Price}}<small><del>{{.Product.Price}}</del></small><br>{{end}}{{.Price}}
+    </div>
+    {{if .Product.Warning}}
+    <div class="product-footer">
+        <div class="alert alert-warning"><span class="circle">!</span> {{.Product.Warning}}</div>
+    </div>
+    {{end}}
+    {{if .Product.Danger}}
+    <div class="product-footer">
+        <div class="alert alert-danger"><span class="circle">!</span> {{.Product.Danger}}</div>
+    </div>
+    {{end}}
+{{end}}
+
+{{define "content"}}
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <hgroup class="text-center">
+                <h1>{{if .Preorder}}Preorder SeedHammer II{{else}}Shop{{end}}</h1>
+                <p><small><i>Amounts are in US dollars. Payment in bitcoin only. Import taxes are not included.</i></small></p>
+            </hgroup>
+            {{if .Preorder}}<p class="alert alert-danger"><span class="circle">!</span> All products below are preorders. Shipping and taxes not included. More information on our <a target="_blank" href="https://geyser.fund/project/seedhammerii/">Crowdfunding page</a>.</p>{{end}}
+            {{if .Error}}<p class="alert alert-warning">{{.Error}}</p>{{end}}
+            {{if .Coupons}}<p class="alert alert-success">Discount: "{{index .Coupons 0}}"</p>{{end}}
+            <form method="post">
+                <input type="hidden" name="r" value="/shop/checkout">
+                <div class="grid product-row product-header">
+                    <div class="product-main">Product</div>
+                    <div class="product-amount">Quantity</div>
+                    <div class="product-price">Price</div>
+                </div>
+                {{range .Order.Lines}}
+                    {{if not .Product.Legacy}}
+                    <div class="grid product-row" id="{{.ID}}">
+                        {{template "line" .}}
+                    </div>
+                    {{end}}
+                {{end}}
+                {{if .LegacyPlates}}
+                    <button type="button" id="showProductsBtn">Show Legacy Plates</button>
+                    {{range .Order.Lines}}
+                        {{if .Product.Legacy}}
+                        <div class="grid product-row hidden-row is-hidden" id="{{.ID}}">
+                            {{template "line" .}}
+                        </div>
+                        {{end}}
+                    {{end}}
+                {{end}}
+                <button type="submit">Go To Checkout</button>
+                <style>
+                    .is-hidden {display: none; }
+                    #showProductsBtn {
+                    background: #fff; color: #02427d;
+                    }
+                </style>
+                {{if .LegacyPlates}}
+                <script>
+                    (function() {
+                        var btn = document.getElementById("showProductsBtn");
+                        var rows = document.getElementsByClassName("hidden-row");
+                        var hidden = true;
+
+                        btn.addEventListener("click", function() {
+                            hidden = !hidden;
+                            for (var i = 0; i < rows.length; i++) {
+                                rows[i].classList.toggle("is-hidden", hidden);
+                            }
+                            btn.textContent = hidden ? "Show Legacy Plates" : "Hide Legacy Plates";
+                        });
+                    })();
+                </script>
+                {{end}}
+            </form>
+        </div>
+        <div></div>
+    </div>
+</section>
+{{end}}

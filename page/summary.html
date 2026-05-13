@@ -1,0 +1,112 @@
+{{template "base" .}}
+
+{{define "title"}}SeedHammer Checkout{{end}}
+{{define "description"}}{{end}}
+
+{{define "content"}}
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <hgroup class="text-center">
+                <h1>{{if .Preorder}}Preorder{{else}}Order{{end}} Summary</h1>
+                <p><small>Verify your {{if .Preorder}}pre{{end}}order details before payment.</small></p>
+            </hgroup>
+            <h2>Delivery Information</h2>
+            <div class="grid">
+                {{with .Order.Address}}
+                {{if not $.Preorder}}
+                <p>
+                    {{if .Company}}{{.Company}}<br>{{end}}
+                    {{if .VAT}}VAT/Tax ID: {{.VAT}}<br>{{end}}
+                    {{.Name}}<br>
+                    {{.Address}}<br>
+                    {{if .Address2}}{{.Address2}}<br>{{end}}
+                    {{.City}}{{if .Zip}} {{.Zip}}{{end}}<br> 
+                    {{.CountryName}}
+                </p>
+                {{end}}
+                <p>
+                {{if .Phone}}Phone: {{.Phone}}<br>{{end}}
+                Email: {{.Email}}
+                </p>
+                {{end}}
+            </div>
+            <h2>Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="min hide-mobile">Prod.&nbsp;ID</th>
+                        <th>Product</th>
+                        <th class="text-center min">Quantity</th>
+                        <th class="text-start min">Unit</th>
+                        <th class="text-end min">Price</th>
+                        <th class="text-end min">Total</th>
+                    </tr>
+                </thead>
+                {{with .Order}}
+                    <tbody>
+                        {{range .Lines}}
+                        <tr>
+                            <td class="min hide-mobile">{{.ID}}</td>
+                            <td>{{.Product.Name}}</td>
+                            <td class="text-center min">{{.Quantity}}</td>
+                            <td class="text-start min">{{.Product.Unit}}</td>
+                            <td class="text-end min">{{if ne .Price .Product.Price}}<small><del>{{.Product.Price}}</del></small><br>{{end}}{{.Price}}</td>
+                            <td class="text-end min">{{.Total}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                    <tfoot>
+                        {{if $.Shippings}}
+                        <tr>
+                            <td class="hide-mobile"></td>
+                            <td colspan="4" class="text-end">Sub Total</td>
+                            <td colspan="1" class="text-end min">{{.SubTotal}}</td>
+                        </tr>
+                        <tr>
+                            <td class="hide-mobile"></td>
+                            <td colspan="4">
+                                <form method="POST" style="margin: 0;">
+                                    <input type="hidden" name="action" value="update_shipping">
+                                        <select name="shipping" onchange="this.form.submit()">
+                                            {{range $.Shippings}}
+                                                <option value="{{.ID}}"{{if eq .ID $.Order.Shipping.ID}} selected="true"{{end}}>{{.Name}} {{.Price}}</option>
+                                            {{end}}
+                                    </select>
+                                </form>
+                            </td>
+                            <td colspan="1"  class="text-end min">{{.Shipping.Price}}</td>
+                        </tr>
+                        {{end}}
+                        {{if .Coupons}}
+                        <tr>
+                            <td class="hide-mobile"></td>
+                            <td colspan="4" class="text-end">Discount {{index .Coupons 0}}</td>
+                            <td colspan="1" class="text-end min">{{.CouponAmount}}</td>
+                        </tr>
+                        {{end}}
+                        {{if .Tax}}
+                        <tr>
+                            <td class="hide-mobile"></td>
+                            <td colspan="4" class="text-end">Tax</td>
+                            <td colspan="1" class="text-end min">{{.Tax}}</td>
+                        </tr>
+                        {{end}}
+                        <tr>
+                            <td class="hide-mobile"></td>
+                            <td colspan="4" class="text-end">Total</td>
+                            <td colspan="1" class="text-end min">{{.Total}}</td>
+                        </tr>
+                    </tfoot>
+                {{end}}
+            </table>
+            <form method="POST">
+                <input type="hidden" name="action" value="pay">
+                <button type="submit">Pay with {{template "icn-bitcoin"}} bitcoin</a>
+            </form>
+        </div>
+        <div></div>
+    </div>
+</section>
+{{end}}

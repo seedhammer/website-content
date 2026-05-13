@@ -1,0 +1,185 @@
+{{template "base" .}}
+
+{{define "title"}}SeedHammer Checkout{{end}}
+{{define "description"}}{{end}}
+
+{{define "content"}}
+
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <hgroup class="text-center">
+                <h1>Payment for Order #{{.OrderID}}</h1>
+                    <p><small>Pay on-chain or through Lightning, amounts in satoshi.</small></p>
+            </hgroup>
+            <h2 class="text-center" style="color: #000000;">{{.Order.TotalSats}}</h2>
+            <div class="text-center">
+                <span style="display: inline-block; cursor: copy;" id="payment-qrcode"></span>
+            </div>
+            <p class="text-center">Invoice expires <span id="expires"></span></p>
+            <a role="button" href="{{.URL}}" target="_blank" style="display: block">Pay in wallet</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="copyTable">
+                    <tr>
+                        <td>Address</td>
+                        <td class="text-end copyTarget" data-clipboard-text="{{.OnChain}}">{{.OnChainShort}}
+                            <button class="copyBtn" type="button">
+                            {{template "icn-copy"}}
+                            {{template "icn-check"}}
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lightning</td>
+                        <td class="text-end copyTarget" data-clipboard-text="{{.Lightning}}">{{.LightningShort}}
+                            <button class="copyBtn" type="button">
+                            {{template "icn-copy"}}
+                            {{template "icn-check"}}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Details</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Order ID</td>
+                        <td class="text-end">#{{.OrderID}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td class="text-end">{{.Order.Total}}</td>
+                    </tr>
+                    <tr>
+                        <td>Exchange Rate</td>
+                        <td class="text-end">1 BTC = {{.Order.ExchangeRate}}</td>
+                    </tr>
+                    <tr>
+                        <td>Amount due</td>
+                        <td class="text-end">{{.Order.TotalSats}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div></div>
+    </div>
+</section>
+
+<style>
+    .copyBtn {
+        display: unset;
+        margin: unset;
+        padding: unset;
+        background: unset;
+        border-color: unset;
+        color: unset;
+        border: unset;
+        box-shadow: unset;
+        width: unset;
+        padding-left: 10px;
+    }
+    .copyBtn:active {
+        transform: translateY(1px);
+        }
+    .copyBtn .icnCheck {display: none;}
+    .copyBtn.show-check .icnCopy {display: none;}
+    .copyBtn.show-check .icnCheck {display: inline;}
+</style>
+<script src="/static/js/qrcode.min.js"></script>
+<script type="text/javascript">
+    function setupQR() {
+        const container = document.getElementById("payment-qrcode");
+        const qr = new QRCode(
+            container,
+            {
+                useSVG: true,
+                correctLevel : QRCode.CorrectLevel.L
+            }
+        );
+        // QR encoding of upper case characters is more compact.
+        const url = {{.URL}}.toUpperCase();
+        qr.makeCode(url);
+        const svgs = container.getElementsByTagName('svg');
+        for(let i = 0; i < svgs.length; i++) {
+            // Limit the width of the QR code.
+            svgs[i].style = 'max-width: 300px';
+        }
+    }
+
+    function setupUI() {
+        document.getElementById('copyTable').addEventListener('click', async (e) => {
+            const btn = e.target.closest('.copyBtn');
+            if (!btn) return;
+            const row = btn.closest('tr');
+            const text = row.querySelector('.copyTarget')?.dataset["clipboardText"].trim();
+            if (!text) return;
+            await navigator.clipboard.writeText(text);
+            btn.classList.add("show-check");
+            setTimeout(() => btn.classList.remove("show-check"), 2000);
+        });
+        document.getElementById('payment-qrcode').addEventListener('click', async (e) => {
+            await navigator.clipboard.writeText({{.URL}});
+        });
+    }
+
+    function setExpiry(unixSeconds) {
+        const expires = new Date(unixSeconds*1000);
+        let seconds = Math.max(0, expires - new Date())/1000;
+        const days = Math.floor(seconds/(24*60*60));
+        seconds = seconds%(24*60*60);
+        const hours = Math.floor(seconds/(60*60));
+        seconds = seconds%(60*60);
+        const minutes = Math.floor(seconds/60);
+        seconds = Math.floor(seconds%60);
+        let remaining = "";
+        if (days > 0) {
+            remaining = "in " + days + " days, " + hours + " hours.";
+        } else if (hours > 0) {
+            remaining = "in " + hours + " hours, " + minutes + " minutes.";
+        } else if (minutes > 0) {
+            remaining = "in " + minutes + " minutes.";
+        } else {
+            remaining = "in " + seconds + " seconds.";
+        }
+        document.getElementById('expires').textContent = remaining;
+    }
+    
+    function pollNotification(url) {
+        const notifyURL = "/shop/invoice_status?invoiceid="+encodeURIComponent({{.InvoiceID}});
+
+        setTimeout(function() {
+            fetch(notifyURL).then((val) => {
+                if (val.ok) {
+                    val.json().then((res) => {
+                        setExpiry(res.expiry);
+                        if (res.status != "new") {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }).finally(() => {
+                pollNotification();
+            });
+        }, 1000);
+    }
+    
+    setupUI();
+    setupQR();
+    setExpiry({{.Expires}});
+    pollNotification();
+</script>
+
+{{end}}

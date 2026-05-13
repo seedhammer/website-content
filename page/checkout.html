@@ -1,0 +1,67 @@
+{{template "base" .}}
+
+{{define "title"}}SeedHammer Checkout{{end}}
+{{define "description"}}SeedHammer Checkout{{end}}
+
+{{define "content"}}
+<section class="container">
+    <div class="grid center-layout">
+        <div></div>
+        <div>
+            <hgroup class="text-center">
+                <h1>Checkout</h1>
+                <p><small>Personal data is deleted 4 months after dispatch, except country. Order content and payment information are retained for support purposes. Read our <a href="/about/attitude-to-privacy" target="_blank">attitude to privacy</a>.</small></p>
+            </hgroup>
+            <h2>Delivery Information</h2>
+            {{if .Error}}<p class="alert alert-warning">{{.Error}}</p>{{end}}
+            <form method="POST">
+                <input type="hidden" name="r" value="/shop/summary">
+            {{with .Order.Address}}
+                {{if not $.Preorder}}
+                <input type="text" id="name" name="name"  maxlength="{{$.MaxNameLength}}" placeholder="First and last name" value="{{.Name}}" required>
+                <small>Tip: Use a name and address unrelated to yourself.</small>
+                <fieldset>
+                    <label for="switch">
+                        <input type="checkbox" id="company-switch" name="switch" role="switch">Company
+                        <div class="grid mt-4">
+                            <div><input type="text" id="company" name="company" maxlength="{{$.MaxNameLength}}" placeholder="Company" value="{{.Company}}"></div>
+                            <div><input type="text" id="vat" name="vat" placeholder="TAX ID (EIN/VAT/IOSS/EORI)" value="{{.VAT}}"></div>
+                        </div>
+                    </label>
+                </fieldset>
+                <input type="text" id="address" name="address" placeholder="Address" value="{{.Address}}" required>
+                <small>Tip: Get delivery to a business, office or parcel shop in order not to reveal your exact location.</small>
+                <input type="text" id="address2" name="address2" placeholder="Address 2" value="{{.Address2}}">
+                <div class="grid">
+                    <input type="text" id="city" name="city" placeholder="City" value="{{.City}}" required>
+                    <input type="zip" id="zip" name="zip" placeholder="ZIP/Postal Code" value="{{.Zip}}">
+                </div>
+                <select id="select-country" name="country" required>
+                    <option value="" disabled{{if not .Country}} selected="true"{{end}}>Country</option>
+                    {{range $.Countries}}
+                        <option value="{{.ID}}" {{if eq $.Order.Address.Country .ID}} selected="true"{{end}}>{{.Name}}</option>
+                    {{end}}
+                </select>
+                {{end}}
+                <div class="grid mb-5">
+                    <label>
+                    <input type="email" id="email" name="email" value="{{.Email}}" placeholder="Email" required>
+                    <small>Tip: Use a burner email. More info <a href="https://duckduckgo.com/?q=create+temporary+email+address">here</a>.</small></label>
+                    {{if not $.Preorder}}
+                    <label><input type="tel" id="tel" name="phone" value="{{.Phone}}" placeholder="Phone Number" required minlength="6">
+                    <small>Tip: Use a burner number. More info <a href="https://duckduckgo.com/?q=create+burner+phone+number">here</a>.</small></label>
+                    {{end}}
+                </div>
+                {{if not $.Preorder}}
+                <p><i><small>Orders are shipped from the EU and will take 2-3 weeks to arrive depending on shipping type and destination. Amounts are in US dollars. Payment only in bitcoin. Customs may apply. Read the <a href="/terms-and-conditions" target="_blank">TAC here</a>.</small></i></p>
+                {{else}}
+                <p><i><small>Preorders are expected to ship in Q2 2025. Shipping and taxes not included. We will contact you for delivery information and shipping charge when your order is ready to ship. Amounts are in US dollars. Payment only in bitcoin. Customs may apply. Read the <a href="/terms-and-conditions" target="_blank">TAC here</a>.</small></i></p>
+                {{end}}
+                <button type="submit">Go To Summary</a>
+            {{end}}
+            </form>
+        </div>
+       <div></div>
+    </div>
+</section>
+{{end}}
