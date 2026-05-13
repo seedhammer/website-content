@@ -3,12 +3,15 @@
 
 ### Run local viewer
 
+Command `viewer` runs a webserver at http://localhost:8080 with
+the content.
+
 ```sh
 $ go run ./cmd/viewer
 ```
 
-The [Nix](https://nixos.org)  helper script runs a webserver on localhost:8080 and
-reloads it on file changes.
+The [Nix](https://nixos.org) helper script runs the viewer
+and reloads it on file changes.
 
 ```sh
 $ nix run .#
