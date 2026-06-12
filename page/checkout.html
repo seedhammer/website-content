@@ -19,7 +19,6 @@
             {{with .Order.Address}}
                 {{if not $.Preorder}}
                 <input type="text" id="name" name="name"  maxlength="{{$.MaxNameLength}}" placeholder="First and last name" value="{{.Name}}" required>
-                <small>Tip: Use a name and address unrelated to yourself.</small>
                 <fieldset>
                     <label for="switch">
                         <input type="checkbox" id="company-switch" name="switch" role="switch">Company
@@ -30,7 +29,6 @@
                     </label>
                 </fieldset>
                 <input type="text" id="address" name="address" placeholder="Address" value="{{.Address}}" required>
-                <small>Tip: Get delivery to a business, office or parcel shop in order not to reveal your exact location.</small>
                 <input type="text" id="address2" name="address2" placeholder="Address 2" value="{{.Address2}}">
                 <div class="grid">
                     <input type="text" id="city" name="city" placeholder="City" value="{{.City}}" required>
@@ -44,12 +42,9 @@
                 </select>
                 {{end}}
                 <div class="grid mb-5">
-                    <label>
                     <input type="email" id="email" name="email" value="{{.Email}}" placeholder="Email" required>
-                    <small>Tip: Use a burner email. More info <a href="https://duckduckgo.com/?q=create+temporary+email+address">here</a>.</small></label>
                     {{if not $.Preorder}}
-                    <label><input type="tel" id="tel" name="phone" value="{{.Phone}}" placeholder="Phone Number" required minlength="6">
-                    <small>Tip: Use a burner number. More info <a href="https://duckduckgo.com/?q=create+burner+phone+number">here</a>.</small></label>
+                    <input type="tel" id="tel" name="phone" value="{{.Phone}}" placeholder="Phone Number" required minlength="6">
                     {{end}}
                 </div>
                 {{if not $.Preorder}}
