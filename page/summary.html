@@ -71,7 +71,7 @@
                                     <input type="hidden" name="action" value="update_shipping">
                                         <select name="shipping" onchange="this.form.submit()">
                                             {{range $.Shippings}}
-                                                <option value="{{.ID}}"{{if eq .ID $.Order.Shipping.ID}} selected="true"{{end}}>{{.Name}} {{.Price}}</option>
+                                                <option value="{{.ID}}"{{if eq .ID $.Order.Shipping.ID}} selected="true"{{end}}>{{.Name}} ({{$.Weight}}) {{.Price}}</option>
                                             {{end}}
                                     </select>
                                 </form>
@@ -101,10 +101,14 @@
                     </tfoot>
                 {{end}}
             </table>
-            <form method="POST">
-                <input type="hidden" name="action" value="pay">
-                <button type="submit">Pay with {{template "icn-bitcoin"}} bitcoin</a>
-            </form>
+            {{if $.Shippings}}
+                <form method="POST">
+                    <input type="hidden" name="action" value="pay">
+                    <button type="submit">Pay with {{template "icn-bitcoin"}} bitcoin</a>
+                </form>
+            {{else}}
+                <p class="alert alert-warning">No available shipping options for order ({{.Weight}}). Contact <a href="/about/contact">support</a> for bulk orders.</p>
+            {{end}}
         </div>
         <div></div>
     </div>
