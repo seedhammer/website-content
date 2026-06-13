@@ -15,7 +15,7 @@
             </hgroup>
             <p class="alert alert-success">Payment received!</p>
             <h2>Thank you</h2>
-            <p>Thank you for your order which has <strong>order no. {{.OrderID}}</strong>. The order confirmation will be sent to <strong>{{with .Order.Address}}{{.Email}}{{end}}</strong> shortly.</p>
+            <p>Thank you for your order which has <strong>order no. {{.OrderID}}</strong>. The order confirmation will be sent to <strong>{{with .Order.Address}}{{.Email}}{{end}}</strong> shortly.{{if ne .Status "settled"}} For bitcoin on-chain payments, you'll receive an email when the payment transaction reaches {{.OnChainConfirmations}} confirmations.{{end}}</p>
             {{if .Preorder}}
             <p>We will email you for delivery information and shipping charges when your order is ready to ship.</p>
             {{else}}
