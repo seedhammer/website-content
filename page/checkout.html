@@ -10,7 +10,7 @@
         <div>
             <hgroup class="text-center">
                 <h1>Checkout</h1>
-                <p><small>Personal data is deleted 4 months after dispatch, except country. Order content and payment information are retained for support purposes. Read our <a href="/about/attitude-to-privacy" target="_blank">attitude to privacy</a>.</small></p>
+                <p><small>Personal data is deleted 4 months after dispatch, except country. Order content and payment information are retained for support purposes. See our <a href="/about/attitude-to-privacy" target="_blank">privacy policy</a>.</small></p>
             </hgroup>
             <h2>Delivery Information</h2>
             {{if .Error}}<p class="alert alert-warning">{{.Error}}</p>{{end}}
@@ -18,33 +18,63 @@
                 <input type="hidden" name="r" value="/shop/summary">
             {{with .Order.Address}}
                 {{if not $.Preorder}}
-                <input type="text" id="name" name="name"  maxlength="{{$.MaxNameLength}}" placeholder="First and last name" value="{{.Name}}" required>
+                <label>
+                    <small>Full Name</small>
+                    <input type="text" id="name" name="name"  maxlength="{{$.MaxNameLength}}" placeholder="First and last name" value="{{.Name}}" required>
+                </label>
                 <fieldset>
                     <label for="switch">
                         <input type="checkbox" id="company-switch" name="switch" role="switch">Company
                         <div class="grid mt-4">
-                            <div><input type="text" id="company" name="company" maxlength="{{$.MaxNameLength}}" placeholder="Company" value="{{.Company}}"></div>
-                            <div><input type="text" id="vat" name="vat" placeholder="TAX ID (EIN/VAT/IOSS/EORI)" value="{{.VAT}}"></div>
+                            <label>
+                                <small>Company Name</small>
+                                <input type="text" id="company" name="company" maxlength="{{$.MaxNameLength}}" placeholder="Acme Ltd." value="{{.Company}}">
+                            </label>
+                            <label>
+                                <small>Tax ID (EIN/VAT/IOSS/EORI)</small>
+                                <input type="text" id="vat" name="vat" placeholder="12345668789" value="{{.VAT}}">
+                            </label>
                         </div>
                     </label>
                 </fieldset>
-                <input type="text" id="address" name="address" placeholder="Address" value="{{.Address}}" required>
-                <input type="text" id="address2" name="address2" placeholder="Address 2" value="{{.Address2}}">
+                <label>
+                    <small>Address</small>
+                    <input type="text" id="address" name="address" placeholder="123 Upper Street" value="{{.Address}}" required>
+                </label>
+                <label>
+                    <small>Apartment, suite, floor (optional)</small>
+                    <input type="text" id="address2" name="address2" placeholder="3. floor" value="{{.Address2}}">
+                </label>
                 <div class="grid">
-                    <input type="text" id="city" name="city" placeholder="City" value="{{.City}}" required>
-                    <input type="zip" id="zip" name="zip" placeholder="ZIP/Postal Code" value="{{.Zip}}">
+                    <label>
+                        <small>Postcode</small>
+                        <input type="zip" id="zip" name="zip" placeholder="12345" value="{{.Zip}}">
+                    </label>
+                    <label>
+                        <small>City</small>
+                        <input type="text" id="city" name="city" placeholder="New York" value="{{.City}}" required>
+                    </label>
                 </div>
-                <select id="select-country" name="country" required>
-                    <option value="" disabled{{if not .Country}} selected="true"{{end}}>Country</option>
-                    {{range $.Countries}}
-                        <option value="{{.ID}}" {{if eq $.Order.Address.Country .ID}} selected="true"{{end}}>{{.Name}}</option>
-                    {{end}}
-                </select>
+                <label>
+                    <small>Country</small>
+                    <select id="select-country" name="country" required>
+                        <option value="" disabled{{if not .Country}} selected="true"{{end}}>Choose country</option>
+                        {{range $.Countries}}
+                            <option value="{{.ID}}" {{if eq $.Order.Address.Country .ID}} selected="true"{{end}}>{{.Name}}</option>
+                        {{end}}
+                    </select>
+                </label>
                 {{end}}
                 <div class="grid mb-5">
-                    <input type="email" id="email" name="email" value="{{.Email}}" placeholder="Email" required>
+                    <label>
+                        <small>Email Address</small>
+                        <input type="email" id="email" name="email" value="{{.Email}}" placeholder="someone@example.com" required>
+                    </label>
                     {{if not $.Preorder}}
-                    <input type="tel" id="tel" name="phone" value="{{.Phone}}" placeholder="Phone Number" required minlength="6">
+                    <label>
+                        <small>Phone Number (International)</small>
+                        <input type="tel" id="tel" name="phone" value="{{.Phone}}" placeholder="+1 123 456-789" pattern="\+\d{1,3}[\d\u0020]+" title="Plus sign (+) and digits (0-9)" required minlength="8">
+                    </label>
                     {{end}}
                 </div>
                 {{if not $.Preorder}}
