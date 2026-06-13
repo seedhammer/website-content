@@ -3,7 +3,7 @@ module seedhammer.com/website/content
 go 1.26.2
 
 require (
-	github.com/btcsuite/btcd/btcutil v1.1.6
+	github.com/btcsuite/btcd/address/v2 v2.0.0
 	github.com/gorilla/feeds v1.2.0
 	github.com/lpar/gzipped/v2 v2.1.0
 	github.com/yuin/goldmark v1.8.2

@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/btcsuite/btcd/btcutil/bech32"
+	"github.com/btcsuite/btcd/address/v2/bech32"
 	"github.com/gorilla/feeds"
 	"github.com/lpar/gzipped/v2"
 	"seedhammer.com/website/content/about"
