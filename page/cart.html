@@ -3,7 +3,9 @@
 {{define "title"}}Order the SeedHammer machine and accessories{{end}}
 {{define "description"}}Place your order here. The Ultimate Cold Storage for Single- and Multisig Bitcoin Setups.{{end}}
 {{define "line"}}
-    <input type="hidden" name="id" value="{{.ID}}">
+    {{if .Stock}}
+        <input type="hidden" name="id" value="{{.ID}}">
+    {{end}}
     <div class="product-main">
         <h2>{{.Product.Name}}</h2>
     </div>
@@ -17,7 +19,7 @@
         </ul>
     </div>
     <div class="product-amount">
-        <input type="number" name="quantity" value="{{.Quantity}}" class="mb-0 cart-amount" multiple="1" min=0 oninput="validity.valid||(value='');"> <span>{{.Product.Unit}}</span>
+        <input type="number" name="quantity" value="{{.Quantity}}" class="mb-0 cart-amount" multiple="1" max="{{.Stock}}" min="0"{{if not .Stock}} disabled{{end}} oninput="validity.valid||(value='');"> <span>{{.Product.Unit}}</span>
     </div>
     <div class="product-price">
         {{if ne .Price .Product.Price}}<small><del>{{.Product.Price}}</del></small><br>{{end}}{{.Price}}
@@ -25,6 +27,11 @@
     {{if .Product.Warning}}
     <div class="product-footer">
         <div class="alert alert-warning"><span class="circle">!</span> {{.Product.Warning}}</div>
+    </div>
+    {{end}}
+    {{if not .Stock}}
+    <div class="product-footer">
+        <div class="alert alert-warning"><span class="circle">!</span> Out of stock</div>
     </div>
     {{end}}
     {{if .Product.Danger}}
